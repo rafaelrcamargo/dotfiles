@@ -1,7 +1,6 @@
 # That's more like a overkill, but it's a good template.
 # Those are my daily git configs, perfect for common use cases.
 # Base template -> https://gist.github.com/tdd/470582
-
 [user]
 	email = 66796237+rafaelrcamargo@users.noreply.github.com # Your email
 	name = RafaelRCamargo # This is the name that will be shown on GPG key fingerprints
@@ -25,6 +24,7 @@
   # -------------------------
 [core]
 	ignorecase = false # Do not ignore casing
+  autocrlf = false # Do not convert line endings on input
 	excludesFile = .gitignore # Ignore .gitignore files
   pager = cat # Don't paginate output by default
   editor = code --wait # VSCode

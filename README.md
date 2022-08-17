@@ -9,10 +9,13 @@ Recommend you giving them a try!
 ## 🌲 Tree
 
 ```bash
-data
+dotfiles
+├── git
+│   ├── .gitconfig
+│   └── .gitignore
 ├── vim
 │   └── init.vim
-└── .gitconfig
+└── README.md
 ```
 
 ## ⚠️ TODOs

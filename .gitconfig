@@ -1,0 +1,49 @@
+# That's more like a overkill, but it's a good template.
+# Those are my daily git configs, perfect for common use cases.
+# Base template -> https://gist.github.com/tdd/470582
+
+[user]
+	email = 66796237+rafaelrcamargo@users.noreply.github.com # Your email
+	name = RafaelRCamargo # This is the name that will be shown on GPG key fingerprints
+[credential "https://git.heroku.com"]
+	provider = generic # This is the name of the credential provider
+[color]
+  ui = auto # Enable colors in color-supporting terminals
+[alias]
+  aliases = !git config --get-regexp alias | sed -re 's/alias\\.(\\S*)\\s(.*)$/\\1 = \\2/g' # List available aliases
+
+  # --- Command shortcuts ---
+  cm = commit
+  co = checkout
+  st = status
+  # -------------------------
+
+  # ---- Useful Commands ----
+  oops = commit --amend --no-edit # Useful when you have to update your last commit
+  reword = commit --amend # Edit last commit message
+  uncommit = reset --soft HEAD~1 # Undo last commit but keep changed files in stage
+  # -------------------------
+[core]
+	ignorecase = false # Do not ignore casing
+	excludesFile = .gitignore # Ignore .gitignore files
+  pager = cat # Don't paginate output by default
+  editor = code --wait # VSCode
+  whitespace = -trailing-space # Don't consider trailing space change as a cause for merge conflicts
+[diff]
+  renames = true # Show renames/moves as such
+  tool = vscode # Use VSCode as default diff tool when running `git diff-tool`
+[difftool "vscode"]
+  cmd = code --wait --diff $LOCAL $REMOTE # Use VSCode as default diff tool
+[fetch]
+  recurseSubmodules = on-demand # Auto-fetch submodule changes (sadly, won't auto-update)
+[mergetool]
+  keepBackup = false # Clean up backup files created by merge tools on tool exit
+  keepTemporaries = false # Clean up temp files created by merge tools on tool exit
+  writeToTemp = true # Put the temp files in a dedicated dir anyway
+  prompt = false # Auto-accept file prompts when launching merge tools
+[push]
+  default = upstream # Default push should only push the current branch to its push target, regardless of its remote name
+  followTags = true # When pushing, also push tags whose commit-ishs are now reachable upstream
+	autoSetupRemote = true # This makes it so you don't have to set the upstream every single time you want to just do a git push on a branch
+[color "branch"]
+  upstream = cyan # Color for the upstream branch, to make it easier

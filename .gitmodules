@@ -1,0 +1,6 @@
+[submodule "macros/volume-and-media"]
+	path = macros/volume-and-media
+	url = https://github.com/rafaelrcamargo/volume-and-media-macros-ahk
+[submodule "omp"]
+	path = omp
+	url = https://github.com/rafaelrcamargo/omp-themes

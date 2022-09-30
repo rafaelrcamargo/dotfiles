@@ -1,0 +1,17 @@
+.monaco-editor .view-overlays .current-line {
+  border-color: rgba(41, 41, 41, 0) !important;
+}
+
+.monaco-workbench
+  .activitybar
+  > .content
+  :not(.monaco-menu)
+  > .monaco-action-bar
+  .action-item.checked
+  .active-item-indicator:before {
+  border-left-color: #00000000 !important;
+}
+
+.editor-group-container > .tabs .tab {
+  border: none !important;
+}

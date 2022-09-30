@@ -10,11 +10,21 @@ Recommend you giving them a try!
 
 ```bash
 dotfiles
-├── git
+├── git/
 │   ├── .gitconfig
 │   └── .gitignore
-├── vim
+├── helix/
+│   ├── themes/
+│   │   └── grv_material.toml
+│   └── config.toml
+│   └── language.toml
+├── macros/
+│   └── volume-and-media/
+├── nvim/
 │   └── init.vim
+├── omp/
+├── vscode/
+│   └── Groovebox.css
 └── README.md
 ```
 

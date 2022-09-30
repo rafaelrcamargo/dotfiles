@@ -1,0 +1,47 @@
+theme = "gruvbox"
+
+[editor]
+color-modes = true
+idle-timeout = 50
+line-number = "relative"
+
+[editor.statusline]
+left = ["mode", "file-name"]
+right = ["position", "separator", "diagnostics", "separator", "file-type", "separator", "spinner"]
+separator = "│"
+
+[editor.lsp]
+auto-signature-help = false
+display-messages = true
+
+[editor.cursor-shape]
+insert = "bar"
+normal = "block"
+select = "underline"
+
+[editor.indent-guides]
+render = true
+
+[keys.normal]
+"A-down" = ["extend_line_below", "delete_selection", "paste_after", "move_line_down"]
+"A-up" = ["extend_line_below", "delete_selection", "move_line_up", "paste_before", "move_line_up"]
+"C-A-z" = "redo"
+"C-down" = ["move_line_down", "move_line_down", "move_line_down", "move_line_down", "move_line_down"]
+C-f = [":w", ":run-shell-command npx prettier -w .", ":reload"]
+"C-left" = "move_prev_word_start"
+"C-right" = "move_next_word_start"
+C-s = ":w"
+"C-up" = ["move_line_up", "move_line_up", "move_line_up", "move_line_up", "move_line_up"]
+"C-z" = "undo"
+
+[keys.insert]
+"C-A-z" = "redo"
+"C-down" = ["move_line_down", "move_line_down", "move_line_down", "move_line_down", "move_line_down"]
+"C-left" = "move_prev_word_start"
+"C-right" = "move_next_word_start"
+"C-up" = ["move_line_up", "move_line_up", "move_line_up", "move_line_up", "move_line_up"]
+"C-z" = "undo"
+"down" = "move_line_down"
+"left" = "move_char_left"
+"right" = "move_char_right"
+"up" = "move_line_up"

@@ -1,0 +1,37 @@
+[[language]]
+name = "rust"
+[language.config]
+auto-format = true
+cargo = { allFeatures = true }
+checkOnSave = { command = "clippy" }
+procMacro = { enable = true }
+
+[[language]]
+file-types = ["md"]
+language-server = { command = "ltex-ls" }
+name = "markdown"
+roots = []
+scope = "source.markdown"
+
+[[language]]
+formatter = { command = "npx prettier", args = ["-w", "."] }
+name = "html"
+
+[[language]]
+formatter = { command = "npx prettier", args = ["-w", "."] }
+name = "json"
+
+[[language]]
+auto-format = true
+formatter = { command = "npx prettier", args = ["-w", "."] }
+name = "css"
+
+[[language]]
+auto-format = true
+formatter = { command = "npx prettier", args = ["-w", "."] }
+name = "javascript"
+
+[[language]]
+auto-format = true
+formatter = { command = "npx prettier", args = ["-w", "."] }
+name = "typescript"

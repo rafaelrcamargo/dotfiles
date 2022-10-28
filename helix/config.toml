@@ -1,4 +1,4 @@
-theme = "gruvbox"
+theme = "gruvbox_material"
 
 [editor]
 color-modes = true
@@ -35,6 +35,8 @@ C-s = ":w"
 "C-z" = "undo"
 
 [keys.insert]
+"A-down" = ["extend_line_below", "delete_selection", "paste_after", "move_line_down"]
+"A-up" = ["extend_line_below", "delete_selection", "move_line_up", "paste_before", "move_line_up"]
 "C-A-z" = "redo"
 "C-down" = ["move_line_down", "move_line_down", "move_line_down", "move_line_down", "move_line_down"]
 "C-left" = "move_prev_word_start"

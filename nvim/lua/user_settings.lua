@@ -17,12 +17,12 @@ disable_plugins = {
     -- NOTE: These plugins are colorscheme. By default only
     -- enfocado is enabled. you can enable other by changing
     -- true to false.
-    tokyonight = false,
-    nightfly = false,
-    moonfly = false,
-    nord = false,
-    onedark = false,
-    nvim_enfocado = false,
+    tokyonight = true,
+    nightfly = true,
+    moonfly = true,
+    nord = true,
+    onedark = true,
+    nvim_enfocado = true,
 
     -- NOTE: These plugins are for debugging. You can install
     -- Some debug servers with dap_install but the list of those
@@ -42,8 +42,8 @@ disable_plugins = {
 
     -- NOTE: scrollview is builtin scrollbar for CodeArt and
     -- And neoscroll is for scroll animation.
-    scrollview = false,
-    neoscroll = false,
+    scrollview = true,
+    neoscroll = true,
 
     -- NOTE: nvim-cmp and luasnip are for code completion.
     nvim_cmp = false,
@@ -55,14 +55,14 @@ disable_plugins = {
     cmp_luasnip = false,
     cmp_nvim_lua = false,
 
-    nvim_web_devicons = false,
+    nvim_web_devicons = true,
     lualine = false,
     nvim_bufferline = false,
     indent_blankline = false,
 
     better_escape = true, -- For exiting from insert mode with jj and jk
 
-    truezen = false,
+    truezen = true,
     nvim_tree = false,
     treesitter = false,
     nvim_colorizer = false,
@@ -142,16 +142,31 @@ local config = {
           set breakindentopt=shift:2,min:40,sbr
         ]])
 
+        -- Neovide config
         vim.cmd([[
-          hi Normal guibg=none ctermbg=none
-          hi LineNr guibg=none ctermbg=none
-          hi Folded guibg=none ctermbg=none
-          hi NonText guibg=none ctermbg=none
-          hi SpecialKey guibg=none ctermbg=none
-          hi VertSplit guibg=none ctermbg=none
-          hi SignColumn guibg=none ctermbg=none
-          hi EndOfBuffer guibg=none ctermbg=none
+          nnoremap <A-Down> :m .+1<CR>==
+          nnoremap <A-Up> :m .-2<CR>==
+          inoremap <A-Down> <Esc>:m .+1<CR>==gi
+          inoremap <A-Up> <Esc>:m .-2<CR>==gi
+          vnoremap <A-Down> :m '>+1<CR>gv=gv
+          vnoremap <A-Up> :m '<-2<CR>gv=gv
+
+          if exists("g:neovide")
+            let g:neovide_transparency = 0.95
+            let g:neovide_scroll_animation_length = 0.2
+            let g:neovide_cursor_unfocused_outline_width = 0.0625
+          else
+            hi Normal guibg=none ctermbg=none
+            hi LineNr guibg=none ctermbg=none
+            hi Folded guibg=none ctermbg=none
+            hi NonText guibg=none ctermbg=none
+            hi SpecialKey guibg=none ctermbg=none
+            hi VertSplit guibg=none ctermbg=none
+            hi SignColumn guibg=none ctermbg=none
+            hi EndOfBuffer guibg=none ctermbg=none
+          endif
         ]])
+
 
         -- Visual
         vim.o.cmdheight = 1 -- Space for displaying messages
@@ -201,6 +216,13 @@ local config = {
         -- Splits
         map("n", "<leader>ws", ":split<CR>")
         map("n", "<leader>vs", ":vsplit<CR>")
+
+        -- Correct the clipboard
+        map("i", "<C-v>", "<C-r>+")
+        map("i", "<C-c>", "<C-r>0")
+
+        -- Repeat
+        map("n", "<leader>.", "@:")
 
         user_lualine_style = 2 -- You can choose between predefined 1, 2, 3, 4 and 5
         -- user_lualine_style = { { left = " ", right = " " }, { left = "", right = "" } }

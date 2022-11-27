@@ -23,16 +23,16 @@ local lualine_styles = {{{
     right = "│"
 }}, {{
     left = " ",
-    right = ""
+    right = " "
 }, {
-    left = "",
-    right = ""
+    left = " ",
+    right = " "
 }}, {{
-    left = "",
-    right = ""
+    left = " ",
+    right = " "
 }, {
-    left = "",
-    right = ""
+    left = "|",
+    right = "|"
 }}, {{
     left = "",
     right = ""
@@ -63,21 +63,41 @@ end
 
 local lualine_config = {
     options = {
-        globalstatus = true,
-        theme = "auto",
+        icons_enabled = true,
+        theme = 'auto',
         disabled_filetypes = {"TelescopePrompt", "TelescopeResults", "aerial", "dapui_scopes", "dapui_breakpoints",
                               "dapui_stacks", "dapui_watches", "dap-repl"},
-
         section_separators = section_char,
-        component_separators = component_char
+        component_separators = component_char,
+        ignore_focus = {},
+        always_divide_middle = true,
+        globalstatus = false,
+        refresh = {
+            statusline = 1000,
+            tabline = 1000,
+            winbar = 1000
+        }
     },
-    extensions = {"fugitive", "nvim-tree", "toggleterm", "aerial", "quickfix", "symbols-outline"},
     sections = {
-        lualine_a = {"mode"},
-        lualine_b = {"branch"},
-        lualine_y = {"progress"},
-        lualine_z = {"location"}
-    }
+        lualine_a = {'mode'},
+        lualine_b = {'branch', 'diff', 'diagnostics'},
+        lualine_c = {'filename'},
+        lualine_x = {'filetype'},
+        lualine_y = {},
+        lualine_z = {'location'}
+    },
+    inactive_sections = {
+        lualine_a = {},
+        lualine_b = {},
+        lualine_c = {'filename'},
+        lualine_x = {'location'},
+        lualine_y = {},
+        lualine_z = {}
+    },
+    tabline = {},
+    winbar = {},
+    inactive_winbar = {},
+    extensions = {}
 }
 
 local config = require("user_settings")

@@ -55,7 +55,7 @@ disable_plugins = {
     cmp_luasnip = false,
     cmp_nvim_lua = false,
 
-    nvim_web_devicons = true,
+    nvim_web_devicons = false,
     lualine = false,
     nvim_bufferline = false,
     indent_blankline = false,
@@ -72,7 +72,7 @@ disable_plugins = {
     null_ls = false,
     lspsaga = false,
     symbols_outline = false,
-    lsp_signature = false,
+    lsp_signature = true,
     toggleterm = false,
     fugitive = false,
     gitsigns = false,
@@ -87,7 +87,26 @@ disable_plugins = {
     vim_resize = false
 }
 
-additional_plugins = {{"sainnhe/gruvbox-material"}, {"github/copilot.vim"}}
+additional_plugins = {{"sainnhe/gruvbox-material"}, {"machakann/vim-sandwich"}, {"tpope/vim-commentary"},
+                      {"github/copilot.vim"}, {"ap/vim-css-color"}, {"junegunn/limelight.vim"},
+                      {"Pocco81/auto-save.nvim"}, {"princejoogie/tailwind-highlight.nvim"}, {"neoclide/coc.nvim"}, {
+    "iamcco/markdown-preview.nvim",
+    run = "cd app && npm install",
+    setup = function()
+        vim.g.mkdp_filetypes = {"markdown"}
+    end,
+    ft = {"markdown"}
+}, {
+    "MunifTanjim/prettier.nvim",
+    config = function()
+        require("prettier").setup({
+            bin = 'prettier',
+            filetypes = {"css", "graphql", "html", "javascript", "javascriptreact", "json", "less", "markdown", "scss",
+                         "typescript", "typescriptreact", "yaml"}
+        })
+
+    end
+}}
 
 local config = {
     -- null-ls configuration
@@ -107,6 +126,14 @@ local config = {
         -- https://github.com/jose-elias-alvarez/null-ls.nvim/tree/main/lua/null-ls/builtins/diagnostics
         local diagnostics = null_ls.builtins.diagnostics
 
+        local null_ls = require("null-ls")
+
+        local group = vim.api.nvim_create_augroup("lsp_format_on_save", {
+            clear = false
+        })
+        local event = "BufWritePre" -- or "BufWritePost"
+        local async = event == "BufWritePost"
+
         null_ls.setup({
             debug = false,
             sources = { -- Settings up some linters and code formatters.
@@ -114,36 +141,66 @@ local config = {
             formatting.taplo, formatting.shfmt.with({
                 command = "shfmt",
                 args = {"-i", "2", "-ci", "-bn", "$FILENAME", "-w"}
-            }), diagnostics.zsh, -- diagnostics.luacheck,
-            diagnostics.pylint},
-            -- This function is for format on save.
-            on_attach = function(client)
-                if client.server_capabilities.document_formatting then
-                    vim.cmd([[
-                  augroup LspFormatting
-                      autocmd! * <buffer>
-                      autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting_sync()
-                  augroup END
-                  ]])
+            }), diagnostics.zsh, diagnostics.pylint},
+            on_attach = function(client, bufnr)
+                if client.supports_method("textDocument/formatting") then
+                    vim.keymap.set("n", "<Leader>f", function()
+                        vim.lsp.buf.format({
+                            bufnr = vim.api.nvim_get_current_buf()
+                        })
+                    end, {
+                        buffer = bufnr,
+                        desc = "[lsp] format"
+                    })
+
+                    -- format on save
+                    vim.api.nvim_clear_autocmds({
+                        buffer = bufnr,
+                        group = group
+                    })
+                    vim.api.nvim_create_autocmd(event, {
+                        buffer = bufnr,
+                        group = group,
+                        callback = function()
+                            vim.lsp.buf.format({
+                                bufnr = bufnr,
+                                async = async
+                            })
+                        end,
+                        desc = "[lsp] format on save"
+                    })
+                end
+
+                if client.supports_method("textDocument/rangeFormatting") then
+                    vim.keymap.set("x", "<Leader>f", function()
+                        vim.lsp.buf.format({
+                            bufnr = vim.api.nvim_get_current_buf()
+                        })
+                    end, {
+                        buffer = bufnr,
+                        desc = "[lsp] format"
+                    })
                 end
             end
         })
     end,
     treesitter = {
+        ensure_installed = {"c", "cpp", "css", "go", "html", "javascript", "json", "lua", "python", "rust", "toml",
+                            "tsx", "typescript", "yaml"},
         highlight = {
+            enable = true
+        },
+        autotag = {
             enable = true
         }
     },
     other_configs = function()
-        vim.cmd("colorscheme gruvbox-material")
-
         vim.cmd([[
+          colorscheme gruvbox-material
+
           set breakindent
           set breakindentopt=shift:2,min:40,sbr
-        ]])
 
-        -- Neovide config
-        vim.cmd([[
           nnoremap <A-Down> :m .+1<CR>==
           nnoremap <A-Up> :m .-2<CR>==
           inoremap <A-Down> <Esc>:m .+1<CR>==gi
@@ -152,21 +209,14 @@ local config = {
           vnoremap <A-Up> :m '<-2<CR>gv=gv
 
           if exists("g:neovide")
-            let g:neovide_transparency = 0.95
+            let g:neovide_transparency = 1
             let g:neovide_scroll_animation_length = 0.2
-            let g:neovide_cursor_unfocused_outline_width = 0.0625
+            let g:neovide_cursor_unfocused_outline_width = 0.1
           else
-            hi Normal guibg=none ctermbg=none
-            hi LineNr guibg=none ctermbg=none
-            hi Folded guibg=none ctermbg=none
-            hi NonText guibg=none ctermbg=none
-            hi SpecialKey guibg=none ctermbg=none
-            hi VertSplit guibg=none ctermbg=none
-            hi SignColumn guibg=none ctermbg=none
-            hi EndOfBuffer guibg=none ctermbg=none
+            " Execute :CodeArtTransparent on startup
+            autocmd VimEnter * CodeArtTransparent
           endif
         ]])
-
 
         -- Visual
         vim.o.cmdheight = 1 -- Space for displaying messages
@@ -224,11 +274,14 @@ local config = {
         -- Repeat
         map("n", "<leader>.", "@:")
 
-        user_lualine_style = 2 -- You can choose between predefined 1, 2, 3, 4 and 5
-        -- user_lualine_style = { { left = " ", right = " " }, { left = "", right = "" } }
+        -- Limelight
+        map("n", "<leader>lm", ":Limelight!!<CR>")
 
-        user_indent_blankline_style = 1 -- You can choose between predefined 1, 2, 3, 4,5 and 6
-        -- user_indent_blankline_style = ""
+        -- Formatting
+        map("n", "<leader>pp", ":Prettier<CR>")
+
+        user_lualine_style = 3 -- [1..5]
+        user_indent_blankline_style = 2 -- [1..6]
     end
 }
 

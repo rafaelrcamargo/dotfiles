@@ -26,22 +26,22 @@ map("v", "J", ":move '>+1<CR>gv-gv")
 
 -- ToggleTerm
 function _G.set_terminal_keymaps()
-  map("t", "<esc>", "<C-\\><C-n>")
-  map("t", "<A-h>", "<c-\\><c-n><c-w>h")
-  map("t", "<A-j>", "<c-\\><c-n><c-w>j")
-  map("t", "<A-k>", "<c-\\><c-n><c-w>k")
-  map("t", "<A-l>", "<c-\\><c-n><c-w>l")
+    map("t", "<esc>", "<C-\\><C-n>")
+    map("t", "<A-h>", "<c-\\><c-n><c-w>h")
+    map("t", "<A-j>", "<c-\\><c-n><c-w>j")
+    map("t", "<A-k>", "<c-\\><c-n><c-w>k")
+    map("t", "<A-l>", "<c-\\><c-n><c-w>l")
 
-  map("t", "<S-h>", "<c-\\><C-n>:call ResizeLeft(3)<CR>")
-  map("t", "<S-j>", "<c-\\><C-n>:call ResizeDown(1)<CR>")
-  map("t", "<S-k>", "<c-\\><C-n>:call ResizeUp(1)<CR>")
-  map("t", "<S-l>", "<c-\\><C-n>:call ResizeRight(3)<CR>")
+    map("t", "<S-h>", "<c-\\><C-n>:call ResizeLeft(3)<CR>")
+    map("t", "<S-j>", "<c-\\><C-n>:call ResizeDown(1)<CR>")
+    map("t", "<S-k>", "<c-\\><C-n>:call ResizeUp(1)<CR>")
+    map("t", "<S-l>", "<c-\\><C-n>:call ResizeRight(3)<CR>")
 end
 vim.api.nvim_create_autocmd("TermOpen", {
-  pattern = "term://*",
-  callback = function()
-    set_terminal_keymaps()
-  end,
+    pattern = "term://*",
+    callback = function()
+        set_terminal_keymaps()
+    end
 })
 
 -- Don't copy the replaced text after pasting.
